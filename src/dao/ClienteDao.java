@@ -46,11 +46,12 @@ public class ClienteDao {
             rs = ps.executeQuery();
             while (rs.next()) {
                 Cliente c = new Cliente();
+                
                 c.setId_cliente(rs.getInt("id_cliente"));
                 c.setIdentidad(rs.getString("identidad"));
                 c.setNombre_completo(rs.getString("nombre_completo"));
-                c.setCorreo(rs.getString("correo"));
                 c.setTelefono(rs.getString("telefono"));
+                c.setCorreo(rs.getString("correo"));
                 c.setDireccion(rs.getString("direccion"));
                 lista.add(c);
             }
@@ -58,6 +59,34 @@ public class ClienteDao {
             System.err.println("Error al listar clientes: " + e.getMessage());
         }
         return lista;
+    }
+    
+    public boolean actualizar(Cliente cl) {
+        String sql = "UPDATE clientes SET identidad=?, nombre_completo=?, correo=?, telefono=?, direccion=? WHERE id_cliente=?";
+        boolean success = false; // Variable para rastrear el resultado
+
+        try {
+            con = conectar.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setString(1, cl.getIdentidad());
+            ps.setString(2, cl.getNombre_completo());
+            ps.setString(3, cl.getCorreo());
+            ps.setString(4, cl.getTelefono());
+            ps.setString(5, cl.getDireccion());
+            ps.setInt(6, cl.getId_cliente());
+
+            // executeUpdate devuelve el número de filas afectadas
+            int resultado = ps.executeUpdate();
+
+            if (resultado > 0) {
+                success = true; 
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al actualizar: " + e.getMessage());
+            success = false;
+        }
+
+        return success; 
     }
     
     public void eliminar(int id) {
