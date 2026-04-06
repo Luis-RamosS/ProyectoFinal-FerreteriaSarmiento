@@ -12,8 +12,18 @@ public class Producto {
     private int id_producto;
     private String nombre;
     private String descripcion;
-    private double precio_venta;
+    private double precio;
     private String categoria;
+    private int cantidad; 
+
+
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
+    }
 
     public Producto() {
     }
@@ -42,12 +52,12 @@ public class Producto {
         this.descripcion = descripcion;
     }
 
-    public double getPrecio_venta() {
-        return precio_venta;
+    public double getPrecio() {
+        return precio;
     }
 
-    public void setPrecio_venta(double precio_venta) {
-        this.precio_venta = precio_venta;
+    public void setPrecio(double precio) {
+        this.precio = precio;
     }
 
     public String getCategoria() {
@@ -56,6 +66,5 @@ public class Producto {
 
     public void setCategoria(String categoria) {
         this.categoria = categoria;
-    }
-    
+    }    
 }
