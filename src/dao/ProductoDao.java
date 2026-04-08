@@ -18,19 +18,42 @@ public class ProductoDao {
 
     // Metodo para Insertar Producto
     public int agregar(Producto p) {
-        String sql = "INSERT INTO Productos (nombre, descripcion, precio_venta, categoria, cantidad) VALUES (?,?,?,?,?)";
+        // 1. Consulta para insertar el producto
+        String sqlProd = "INSERT INTO productos (nombre, descripcion, precio_venta, categoria) VALUES (?,?,?,?)";
+        // 2. Consulta para crear su espacio en inventario
+        String sqlInv = "INSERT INTO inventario (id_producto, stock_actual, stock_minimo) VALUES (?,?,?)";
+
         try {
             con = conectar.getConnection();
-            ps = con.prepareStatement(sql);
+            // Usamos RETURN_GENERATED_KEYS para obtener el ID que asigne la DB
+            ps = con.prepareStatement(sqlProd, java.sql.Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, p.getNombre());
             ps.setString(2, p.getDescripcion());
             ps.setDouble(3, p.getPrecio());
             ps.setString(4, p.getCategoria());
-            ps.setInt(5, p.getCantidad());
-            
-            return ps.executeUpdate();
+            ps.executeUpdate();
+
+            // Recuperamos el ID generado
+            rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                int idRecienCreado = rs.getInt(1);
+
+                // Insertamos en la tabla inventario automáticamente
+                ps = con.prepareStatement(sqlInv);
+                ps.setInt(1, idRecienCreado);
+                ps.setInt(2, 0); // Empieza en 0 o puedes usar p.getCantidad()
+                ps.setInt(3, 5); // Un stock mínimo estándar
+                ps.executeUpdate();
+            }
+
+            // Cierre manual de recursos
+            rs.close();
+            ps.close();
+            con.close();
+            return 1;
+
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al guardar producto: " + e.getMessage());
+            System.out.println("Error al agregar con inventario: " + e.getMessage());
             return 0;
         }
     }
@@ -83,18 +106,37 @@ public class ProductoDao {
     }
     
     public boolean eliminar(int id) {
-        String sql = "DELETE FROM productos WHERE id_producto = ?";
-        boolean success = false;
+        // Definimos las dos consultas
+        String sqlInv = "DELETE FROM inventario WHERE id_producto = ?";
+        String sqlProd = "DELETE FROM productos WHERE id_producto = ?";
+
+        boolean success = false; // Tu estructura de control
+
         try {
             con = conectar.getConnection();
-            ps = con.prepareStatement(sql);
+
+            // 1. Borramos primero en inventario (Obligatorio por la relación de tablas)
+            ps = con.prepareStatement(sqlInv);
             ps.setInt(1, id);
+            ps.executeUpdate();
+
+            // 2. Borramos en productos
+            ps = con.prepareStatement(sqlProd);
+            ps.setInt(1, id);
+
+            // Si se borra el producto con éxito, marcamos success como true
             if (ps.executeUpdate() > 0) {
                 success = true;
             }
+
+            // Cierre manual de recursos
+            ps.close();
+            con.close();
+
         } catch (SQLException e) {
-            System.out.println("Error al eliminar producto: " + e.getMessage());
+            System.out.println("Error al eliminar producto e inventario: " + e.getMessage());
         }
+
         return success;
     }
     
@@ -110,12 +152,20 @@ public class ProductoDao {
             ps = con.prepareStatement(sql);
             ps.setString(1, nombre);
             rs = ps.executeQuery();
+
             if (rs.next()) {
                 stock = rs.getInt("stock_actual");
             }
+
+            // Cerramos manualmente antes de salir
+            rs.close();
+            ps.close();
+            con.close();
+
         } catch (SQLException e) {
             System.out.println("Error al obtener stock: " + e.getMessage());
-        } 
+        }
         return stock;
     }
+    
 }

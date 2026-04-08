@@ -7,6 +7,7 @@ package gui;
 import dao.ClienteDao;
 import dao.InventarioDao;
 import dao.ProductoDao;
+import dao.UsuarioDao;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -29,6 +30,8 @@ public class MenuPrincipal extends javax.swing.JFrame {
         listarClientes();
         listarProductos();
         llenarComboProductos();
+        listarInventario();
+        mostrarUsuariosEnTabla();
     }
 
     void limpiar(){
@@ -46,6 +49,12 @@ public class MenuPrincipal extends javax.swing.JFrame {
         txtCategoria.setText("");
         txtCantidad.setText("");
     }
+    public void limpiarCamposUsuarios() {
+    txtUsuario.setText("");
+    txtContraseña.setText("");
+    cbxRol.setSelectedIndex(0); // Regresa al primer rol de la lista
+    txtUsuario.requestFocus();  // Pone el cursor listo para escribir de nuevo
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -81,12 +90,23 @@ public class MenuPrincipal extends javax.swing.JFrame {
         txtCantidadActual = new javax.swing.JTextField();
         txtCantidadNueva = new javax.swing.JTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tablaInventario = new javax.swing.JTable();
         jLabel9 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         btnActualizarCantidad = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        txtUsuario = new javax.swing.JTextField();
+        cbxRol = new javax.swing.JComboBox<>();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tablaUsuarios = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        txtContraseña = new javax.swing.JPasswordField();
         jPanel1 = new javax.swing.JPanel();
         txtIdentidad = new javax.swing.JTextField();
         txtCorreo = new javax.swing.JTextField();
@@ -248,7 +268,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(17, 17, 17)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 159, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 120, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardar1)
                     .addComponent(btnActualizar1)
@@ -261,13 +281,12 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Productos", jPanel2);
 
-        cbxProductos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cbxProductos.addItemListener(this::cbxProductosItemStateChanged);
         cbxProductos.addActionListener(this::cbxProductosActionPerformed);
 
         txtCantidadNueva.addActionListener(this::txtCantidadNuevaActionPerformed);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tablaInventario.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -275,10 +294,18 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Producto", "Cantidad Actual", "Cantidad Minima", "Ultima actualizacion"
             }
-        ));
-        jScrollPane3.setViewportView(jTable1);
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane3.setViewportView(tablaInventario);
 
         jLabel9.setText("Productos:");
 
@@ -309,16 +336,12 @@ public class MenuPrincipal extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(232, 232, 232)
                         .addComponent(btnActualizarCantidad)))
-                .addGap(247, 247, 247)
+                .addGap(115, 115, 115)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(502, Short.MAX_VALUE))
+                .addContainerGap(316, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(133, Short.MAX_VALUE))
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(83, 83, 83)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -335,19 +358,112 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnActualizarCantidad)
                 .addGap(155, 155, 155))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(94, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Inventario", jPanel3);
+
+        jLabel15.setText("Usuario:");
+
+        jLabel16.setText("Contraseña:");
+
+        jLabel17.setText("Rol:");
+
+        txtUsuario.addActionListener(this::txtUsuarioActionPerformed);
+
+        cbxRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Adminstrador", "Vendedor" }));
+
+        tablaUsuarios.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Id", "Usuario", "Rol"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane4.setViewportView(tablaUsuarios);
+
+        jButton1.setText("Guardar");
+        jButton1.addActionListener(this::jButton1ActionPerformed);
+
+        jButton2.setText("Modificar");
+        jButton2.addActionListener(this::jButton2ActionPerformed);
+
+        jButton3.setText("Eliminar");
+
+        txtContraseña.addActionListener(this::txtContraseñaActionPerformed);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1516, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(47, 47, 47)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtUsuario))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtContraseña))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(cbxRol, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 302, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 497, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(136, 136, 136))
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(jButton1)
+                .addGap(116, 116, 116)
+                .addComponent(jButton2)
+                .addGap(111, 111, 111)
+                .addComponent(jButton3)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 584, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(55, 55, 55)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel15)
+                            .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel16)
+                            .addComponent(txtContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel17)
+                            .addComponent(cbxRol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2)
+                    .addComponent(jButton3))
+                .addGap(57, 57, 57))
         );
 
         jTabbedPane1.addTab("Usuarios", jPanel4);
@@ -451,7 +567,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
                         .addComponent(btnLimpiar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnSalir)))
-                .addContainerGap(630, Short.MAX_VALUE))
+                .addContainerGap(312, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -481,7 +597,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(40, 40, 40)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 95, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardar)
                     .addComponent(btnActualizar)
@@ -503,18 +619,18 @@ public class MenuPrincipal extends javax.swing.JFrame {
                         .addGap(452, 452, 452)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1516, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(25, 25, 25)
+                        .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1198, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(305, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(27, 27, 27)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1)
-                .addGap(18, 18, 18))
+                .addGap(18, 18, 18)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 580, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(45, Short.MAX_VALUE))
         );
 
         pack();
@@ -566,6 +682,28 @@ public class MenuPrincipal extends javax.swing.JFrame {
             modelo.addRow(fila);
         }
         tablaProductos.setModel(modelo);
+    }
+    
+    public void listarInventario() {
+        // Usamos el InventarioDao que creamos
+        InventarioDao invDao = new InventarioDao();
+        List<Object[]> lista = invDao.listarInventarioCompleto(); // El método que une Productos e Inventario
+        DefaultTableModel modeloInv = (DefaultTableModel) tablaInventario.getModel();
+        modeloInv.setRowCount(0); // Limpiar tabla
+        for (Object[] fila : lista) {
+            modeloInv.addRow(fila);
+        }
+    }
+    public void mostrarUsuariosEnTabla() {
+        UsuarioDao dao = new UsuarioDao();
+        List<Object[]> lista = dao.listarUsuarios();
+        DefaultTableModel modelo = (DefaultTableModel) tablaUsuarios.getModel();
+
+        modelo.setRowCount(0); // Limpia la tabla antes de cargarla
+
+        for (Object[] fila : lista) {
+            modelo.addRow(fila);
+        }
     }
     
     public void llenarComboProductos() {
@@ -715,7 +853,8 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
                 if (dao.agregar(p)==1) {
                     JOptionPane.showMessageDialog(this, "Producto registrado con éxito");
-                    listarProductos(); // Refresca la tabla
+                    listarProductos();
+                    listarInventario();// Refresca la tabla
                     limpiar();
                 } else {
                     JOptionPane.showMessageDialog(this, "Error al guardar producto");
@@ -817,44 +956,113 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
     private void cbxProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxProductosActionPerformed
         // TODO add your handling code here:
-        llenarComboProductos();
+        
     }//GEN-LAST:event_cbxProductosActionPerformed
 
     private void cbxProductosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxProductosItemStateChanged
         // TODO add your handling code here:
-        if (evt.getStateChange() == java.awt.event.ItemEvent.SELECTED) {
-            String nombreSeleccionado = cbxProductos.getSelectedItem().toString();
+if (evt.getStateChange() == java.awt.event.ItemEvent.SELECTED) {
+            try {
+                String nombreProd = cbxProductos.getSelectedItem().toString();
 
-            ProductoDao dao = new ProductoDao();
-            int stock = dao.obtenerStockPorNombre(nombreSeleccionado);
+                // Si el combo está vacío por alguna razón, no hagas nada
+                if (nombreProd.equals("Seleccionar") || nombreProd.isEmpty()) {
+                    return;
+                }
 
-            // txtStockActual es el nombre del cuadro de texto que pusiste como 'no editable'
-            txtCantidadActual.setText(String.valueOf(stock));
+                ProductoDao prodDao = new ProductoDao();
+                int stockEncontrado = prodDao.obtenerCantidadPorNombre(nombreProd);
+
+                txtCantidadActual.setText(String.valueOf(stockEncontrado));
+
+            } catch (Exception e) {
+                System.out.println("Error al cambiar de producto: " + e.getMessage());
+            }
         }
     }//GEN-LAST:event_cbxProductosItemStateChanged
 
     private void btnActualizarCantidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarCantidadActionPerformed
-// Dentro del evento del botón:
-        InventarioDao invDao = new InventarioDao();
-        ProductoDao prodDao = new ProductoDao();
+        try {
+            // 1. Validaciones básicas
+            if (txtCantidadNueva.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Ingrese la cantidad que desea sumar.");
+                return;
+            }
 
-// 1. Buscamos el producto por el nombre seleccionado en el combo
-        String nombreProd = cbxProductos.getSelectedItem().toString();
-        Producto p = prodDao.obtenerCantidadPorNombre(nombreProd);
+            // 2. Obtener datos de los componentes
+            String nombreProd = cbxProductos.getSelectedItem().toString(); //
+            int cantidadEntrante = Integer.parseInt(txtCantidadNueva.getText());
 
-// 2. Traemos lo que hay actualmente en la tabla inventario
-        int stockActual = invDao.obtenerStock(p.getId_producto());
+            ProductoDao prodDao = new ProductoDao();
+            InventarioDao invDao = new InventarioDao();
 
-// 3. Sumamos lo que el usuario escribió en el txt
-        int cantidadEntrante = Integer.parseInt(txtCantidadNueva.getText());
-        int stockFinal = stockActual + cantidadEntrante;
+            // 3. Obtener stock actual (esto devuelve un int, no un Producto)
+            int stockAnterior = prodDao.obtenerCantidadPorNombre(nombreProd);
 
-// 4. Guardamos el nuevo total
-        if (invDao.actualizarStock(stockFinal, p.getId_producto())) {
-            JOptionPane.showMessageDialog(null, "Inventario cargado con éxito");
-            txtCantidadActual.setText(String.valueOf(stockFinal)); // Actualiza la vista
+            // 4. Calcular el total
+            int stockFinal = stockAnterior + cantidadEntrante;
+
+            // 5. Buscar el ID para poder actualizar la tabla inventario
+            // Recorremos la lista para encontrar el ID del producto seleccionado
+            java.util.List<modelo.Producto> lista = prodDao.listar();
+            int idEncontrado = 0;
+            for (modelo.Producto item : lista) {
+                if (item.getNombre().equals(nombreProd)) {
+                    idEncontrado = item.getId_producto();
+                    break;
+                }
+            }
+
+            // 6. Guardar en la base de datos
+            if (invDao.actualizarStock(stockFinal, idEncontrado)) {
+                JOptionPane.showMessageDialog(null, "¡Stock actualizado!\nTotal en bodega: " + stockFinal);
+                
+                listarProductos();
+                listarInventario();
+                // Actualizar cuadros de texto
+                txtCantidadActual.setText(String.valueOf(stockFinal));
+                txtCantidadNueva.setText("");
+            }
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Error: Ingrese solo números en la cantidad.");
         }
     }//GEN-LAST:event_btnActualizarCantidadActionPerformed
+
+    private void txtUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsuarioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtUsuarioActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        String user = txtUsuario.getText();
+        String pass = String.valueOf(txtContraseña.getPassword()); // Para JPasswordField
+        String rol = cbxRol.getSelectedItem().toString();
+
+        // 2. Validación básica: que no estén vacíos
+        if (user.isEmpty() || pass.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor rellene todos los campos");
+        } else {
+            UsuarioDao dao = new UsuarioDao();
+
+            // 3. Llamamos al método y verificamos el éxito
+            if (dao.agregarUsuario(user, pass, rol)) {
+                JOptionPane.showMessageDialog(null, "¡Usuario creado exitosamente!");
+                limpiarCamposUsuarios(); // Crea un método para vaciar los cuadros de texto
+                mostrarUsuariosEnTabla();        // Refresca la tabla que tienes a la derecha
+            } else {
+                JOptionPane.showMessageDialog(null, "Error: El nombre de usuario ya existe");
+            }
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void txtContraseñaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtContraseñaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtContraseñaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -895,12 +1103,19 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton btnSalir1;
     private javax.swing.JButton btnSalir2;
     private javax.swing.JComboBox<String> cbxProductos;
+    private javax.swing.JComboBox<String> cbxRol;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -916,14 +1131,17 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTable tablaClientes;
+    private javax.swing.JTable tablaInventario;
     private javax.swing.JTable tablaProductos;
+    private javax.swing.JTable tablaUsuarios;
     private javax.swing.JTextField txtCantidad;
     private javax.swing.JTextField txtCantidadActual;
     private javax.swing.JTextField txtCantidadNueva;
     private javax.swing.JTextField txtCategoria;
+    private javax.swing.JPasswordField txtContraseña;
     private javax.swing.JTextField txtCorreo;
     private javax.swing.JTextField txtDescripcion;
     private javax.swing.JTextField txtDireccion;
@@ -932,5 +1150,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JTextField txtNombreProducto;
     private javax.swing.JTextField txtPrecio;
     private javax.swing.JTextField txtTelefono;
+    private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
 }

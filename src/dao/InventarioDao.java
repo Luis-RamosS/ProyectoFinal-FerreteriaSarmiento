@@ -5,6 +5,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 import modelo.Producto;
 
@@ -67,5 +69,31 @@ public class InventarioDao {
         } catch (SQLException e) {
             System.out.println("Error al cerrar: " + e.getMessage());
         }
+    }
+    
+    public List<Object[]> listarInventarioCompleto() {
+        List<Object[]> lista = new ArrayList<>();
+        // Esta consulta une el nombre del producto con sus datos de inventario
+        String sql = "SELECT p.nombre, i.stock_actual, i.stock_minimo, i.ultima_actualizacion "
+                + "FROM inventario i JOIN productos p ON i.id_producto = p.id_producto";
+        try {
+            con = conectar.getConnection();
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Object[] fila = new Object[4];
+                fila[0] = rs.getString("nombre");
+                fila[1] = rs.getInt("stock_actual");
+                fila[2] = rs.getInt("stock_minimo");
+                fila[3] = rs.getTimestamp("ultima_actualizacion");
+                lista.add(fila);
+            }
+            rs.close();
+            ps.close();
+            con.close();
+        } catch (SQLException e) {
+            System.out.println(e.toString());
+        }
+        return lista;
     }
 }
