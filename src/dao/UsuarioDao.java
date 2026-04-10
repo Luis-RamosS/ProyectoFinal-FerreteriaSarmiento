@@ -59,6 +59,45 @@ public class UsuarioDao {
         }
         return lista;
     }
+    // MÉTODO MODIFICAR
+
+    public boolean modificarUsuario(int id, String user, String pass, String rol) {
+        String sql = "UPDATE usuarios SET nombre_usuario=?, PASSWORD=?, rol=? WHERE id_usuario=?";
+        boolean success = false;
+        try {
+            con = conectar.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setString(1, user);
+            ps.setString(2, pass);
+            ps.setString(3, rol);
+            ps.setInt(4, id);
+
+            if (ps.executeUpdate() > 0) {
+                success = true;
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al modificar usuario: " + e.getMessage());
+        }
+        return success;
+    }
+
+// MÉTODO ELIMINAR
+    public boolean eliminarUsuario(int id) {
+        String sql = "DELETE FROM usuarios WHERE id_usuario=?";
+        boolean success = false;
+        try {
+            con = conectar.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+
+            if (ps.executeUpdate() > 0) {
+                success = true;
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al eliminar usuario: " + e.getMessage());
+        }
+        return success;
+    }
     
     // Metodo para el Login
     public Usuario login(String nombre, String pass) {
@@ -81,5 +120,21 @@ public class UsuarioDao {
             JOptionPane.showMessageDialog(null, "Error en login: " + e.getMessage());
         }
         return us;
+    }
+    public String obtenerRol(String usuario) {
+        String rol = "";
+        String sql = "SELECT rol FROM usuarios WHERE nombre_usuario = ?";
+        try {
+            con = conectar.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setString(1, usuario);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                rol = rs.getString("rol");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al obtener rol: " + e.getMessage());
+        }
+        return rol;
     }
 }
