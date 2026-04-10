@@ -83,26 +83,46 @@ public class ProductoDao {
     }
     
     public boolean actualizar(Producto p) {
-        String sql = "UPDATE productos SET nombre=?, descripcion=?, precio_venta=?, categoria=?, cantidad=? WHERE id_producto=?";
-        boolean success = false;
-        try {
-            con = conectar.getConnection();
-            ps = con.prepareStatement(sql);
-            
-            ps.setString(1, p.getNombre());
-            ps.setString(2, p.getDescripcion());
-            ps.setDouble(3, p.getPrecio());
-            ps.setString(4, p.getCategoria());
-            ps.setInt(5, p.getCantidad());
-            ps.setInt(6,p.getId_producto());
-            
-            if (ps.executeUpdate() > 0) {
-                success = true;
+        String sqlProd = "UPDATE productos SET nombre=?, descripcion=?, precio_venta=?, categoria=?, cantidad=? WHERE id_producto=?";
+        String sqlInv = "UPDATE inventario SET stock_actual=? WHERE id_producto=?";
+
+        // Al declarar los recursos dentro del paréntesis del try, se cierran solos
+        try (Connection con = conectar.getConnection()) {
+
+            // Iniciamos la transacción
+            con.setAutoCommit(false);
+
+            try (PreparedStatement psProd = con.prepareStatement(sqlProd); PreparedStatement psInv = con.prepareStatement(sqlInv)) {
+
+                // 1. Datos para la tabla Productos
+                psProd.setString(1, p.getNombre());
+                psProd.setString(2, p.getDescripcion());
+                psProd.setDouble(3, p.getPrecio());
+                psProd.setString(4, p.getCategoria());
+                psProd.setInt(5, p.getCantidad());
+                psProd.setInt(6, p.getId_producto());
+                psProd.executeUpdate();
+
+                // 2. Datos para la tabla Inventario (Sincronización)
+                psInv.setInt(1, p.getCantidad());
+                psInv.setInt(2, p.getId_producto());
+                psInv.executeUpdate();
+
+                // Si llegamos aquí sin errores, confirmamos la transacción
+                con.commit();
+                return true;
+
+            } catch (SQLException e) {
+                // Si algo falla, deshacemos los cambios
+                con.rollback();
+                JOptionPane.showMessageDialog(null, "Error al actualizar: " + e.getMessage());
+                return false;
             }
+
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null,"Error al actualizar producto: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error de conexión: " + e.getMessage());
+            return false;
         }
-        return success;
     }
     
     public boolean eliminar(int id) {

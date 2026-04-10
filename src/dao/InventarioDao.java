@@ -37,20 +37,42 @@ public class InventarioDao {
         return stock;
     }
 
-    // 2. Método para actualizar el stock (Suma lo nuevo a lo viejo)
+    
     public boolean actualizarStock(int nuevaCantidad, int idProducto) {
-        String sql = "UPDATE inventario SET stock_actual = ? WHERE id_producto = ?";
-        try {
-            con = conectar.getConnection();
-            ps = con.prepareStatement(sql);
-            ps.setInt(1, nuevaCantidad);
-            ps.setInt(2, idProducto);
-            return ps.executeUpdate() > 0;
+        // Definimos las dos consultas: una para inventario y otra para productos
+        String sqlInv = "UPDATE inventario SET stock_actual = ? WHERE id_producto = ?";
+        String sqlProd = "UPDATE productos SET cantidad = ? WHERE id_producto = ?";
+
+        try (Connection con = conectar.getConnection()) {
+            // Iniciamos transacción manual
+            con.setAutoCommit(false);
+
+            try (PreparedStatement psInv = con.prepareStatement(sqlInv); PreparedStatement psProd = con.prepareStatement(sqlProd)) {
+
+                // 1. Actualizamos la tabla INVENTARIO
+                psInv.setInt(1, nuevaCantidad);
+                psInv.setInt(2, idProducto);
+                psInv.executeUpdate();
+
+                // 2. Actualizamos la tabla PRODUCTOS (para que coincidan)
+                psProd.setInt(1, nuevaCantidad);
+                psProd.setInt(2, idProducto);
+                psProd.executeUpdate();
+
+                // Si ambos procesos terminan bien, guardamos cambios
+                con.commit();
+                return true;
+
+            } catch (SQLException e) {
+                // Si algo falla, deshacemos todo (Rollback)
+                con.rollback();
+                JOptionPane.showMessageDialog(null, "Error al actualizar stock: " + e.getMessage());
+                return false;
+            }
+
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al actualizar inventario: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error de conexión: " + e.getMessage());
             return false;
-        } finally {
-            cerrarConexiones();
         }
     }
 
