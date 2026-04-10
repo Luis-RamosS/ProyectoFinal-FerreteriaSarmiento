@@ -144,16 +144,22 @@ public class MenuPrincipal extends javax.swing.JFrame {
         btnEliminar = new javax.swing.JButton();
         btnActualizar = new javax.swing.JButton();
         btnSalir2 = new javax.swing.JButton();
+        jLabel18 = new javax.swing.JLabel();
         lblUsuarioActivo = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1600, 1000));
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setText("Menu Principal");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 60, -1, -1));
 
         jTabbedPane1.setTabPlacement(javax.swing.JTabbedPane.LEFT);
         jTabbedPane1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+
+        jPanel2.setOpaque(false);
 
         tablaProductos.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         tablaProductos.setModel(new javax.swing.table.DefaultTableModel(
@@ -205,19 +211,23 @@ public class MenuPrincipal extends javax.swing.JFrame {
         txtCategoria.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtCategoria.addActionListener(this::txtCategoriaActionPerformed);
 
-        btnGuardar1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnGuardar1.setBackground(new java.awt.Color(135, 206, 235));
+        btnGuardar1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnGuardar1.setText("Guardar");
         btnGuardar1.addActionListener(this::btnGuardar1ActionPerformed);
 
-        btnActualizar1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnActualizar1.setBackground(new java.awt.Color(135, 206, 235));
+        btnActualizar1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnActualizar1.setText("Actualizar");
         btnActualizar1.addActionListener(this::btnActualizar1ActionPerformed);
 
-        btnEliminar1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnEliminar1.setBackground(new java.awt.Color(135, 206, 235));
+        btnEliminar1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnEliminar1.setText("Eliminar");
         btnEliminar1.addActionListener(this::btnEliminar1ActionPerformed);
 
-        btnLimpiar1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnLimpiar1.setBackground(new java.awt.Color(135, 206, 235));
+        btnLimpiar1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnLimpiar1.setText("Limpiar");
         btnLimpiar1.addActionListener(this::btnLimpiar1ActionPerformed);
 
@@ -251,9 +261,9 @@ public class MenuPrincipal extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel8)
-                                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txtNombreProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -270,9 +280,9 @@ public class MenuPrincipal extends javax.swing.JFrame {
                                 .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(74, 74, 74)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 603, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(689, 689, 689))))
+                        .addGap(49, 49, 49)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 648, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(669, 669, 669))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -302,7 +312,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(17, 17, 17)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 148, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 159, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardar1)
                     .addComponent(btnActualizar1)
@@ -313,6 +323,8 @@ public class MenuPrincipal extends javax.swing.JFrame {
         );
 
         jTabbedPane1.addTab("Productos", jPanel2);
+
+        jPanel3.setOpaque(false);
 
         cbxProductos.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         cbxProductos.addItemListener(this::cbxProductosItemStateChanged);
@@ -342,6 +354,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
+        tablaInventario.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaInventarioMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(tablaInventario);
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -353,7 +370,8 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jLabel14.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel14.setText("Cantidad actual:");
 
-        btnActualizarCantidad.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnActualizarCantidad.setBackground(new java.awt.Color(135, 206, 235));
+        btnActualizarCantidad.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnActualizarCantidad.setText("Actualizar");
         btnActualizarCantidad.addActionListener(this::btnActualizarCantidadActionPerformed);
 
@@ -379,14 +397,14 @@ public class MenuPrincipal extends javax.swing.JFrame {
                         .addComponent(btnActualizarCantidad)))
                 .addGap(136, 136, 136)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(226, Short.MAX_VALUE))
+                .addContainerGap(295, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(24, 24, 24)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(116, Short.MAX_VALUE))
+                .addContainerGap(127, Short.MAX_VALUE))
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(83, 83, 83)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -406,6 +424,8 @@ public class MenuPrincipal extends javax.swing.JFrame {
         );
 
         jTabbedPane1.addTab("Inventario", jPanel3);
+
+        jPanel4.setOpaque(false);
 
         jLabel15.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel15.setText("Usuario:");
@@ -448,15 +468,18 @@ public class MenuPrincipal extends javax.swing.JFrame {
         });
         jScrollPane4.setViewportView(tablaUsuarios);
 
-        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jButton1.setBackground(new java.awt.Color(135, 206, 235));
+        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton1.setText("Guardar");
         jButton1.addActionListener(this::jButton1ActionPerformed);
 
-        btnGuardarUsuario.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnGuardarUsuario.setBackground(new java.awt.Color(135, 206, 235));
+        btnGuardarUsuario.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnGuardarUsuario.setText("Modificar");
         btnGuardarUsuario.addActionListener(this::btnGuardarUsuarioActionPerformed);
 
-        jButton3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jButton3.setBackground(new java.awt.Color(135, 206, 235));
+        jButton3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton3.setText("Eliminar");
         jButton3.addActionListener(this::jButton3ActionPerformed);
 
@@ -477,7 +500,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(cbxRol, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 97, Short.MAX_VALUE))
+                        .addGap(0, 166, Short.MAX_VALUE))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtUsuario)
@@ -514,7 +537,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGap(30, 30, 30)
                         .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(btnGuardarUsuario)
@@ -523,6 +546,9 @@ public class MenuPrincipal extends javax.swing.JFrame {
         );
 
         jTabbedPane1.addTab("Usuarios", jPanel4);
+
+        jPanel1.setBackground(new java.awt.Color(240, 248, 255));
+        jPanel1.setOpaque(false);
 
         txtIdentidad.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
@@ -561,6 +587,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
+        tablaClientes.setOpaque(false);
         tablaClientes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tablaClientesMouseClicked(evt);
@@ -578,19 +605,23 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel6.setText("Correo:");
 
-        btnGuardar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnGuardar.setBackground(new java.awt.Color(135, 206, 235));
+        btnGuardar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnGuardar.setText("Guardar");
         btnGuardar.addActionListener(this::btnGuardarActionPerformed);
 
-        btnLimpiar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnLimpiar.setBackground(new java.awt.Color(135, 206, 235));
+        btnLimpiar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnLimpiar.setText("Limpiar");
         btnLimpiar.addActionListener(this::btnLimpiarActionPerformed);
 
-        btnEliminar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnEliminar.setBackground(new java.awt.Color(135, 206, 235));
+        btnEliminar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnEliminar.setText("Eliminar");
         btnEliminar.addActionListener(this::btnEliminarActionPerformed);
 
-        btnActualizar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnActualizar.setBackground(new java.awt.Color(135, 206, 235));
+        btnActualizar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnActualizar.setText("Actualizar");
         btnActualizar.addActionListener(this::btnActualizarActionPerformed);
 
@@ -631,18 +662,16 @@ public class MenuPrincipal extends javax.swing.JFrame {
                             .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(32, 32, 32)
                             .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(19, 19, 19)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(18, 106, Short.MAX_VALUE)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(57, 57, 57)
+                        .addGap(76, 76, 76)
                         .addComponent(btnEliminar)
                         .addGap(97, 97, 97)
                         .addComponent(btnLimpiar)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap(113, Short.MAX_VALUE))
+                        .addContainerGap(421, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 507, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -671,8 +700,8 @@ public class MenuPrincipal extends javax.swing.JFrame {
                             .addComponent(jLabel5)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(40, 40, 40)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardar)
                     .addComponent(btnActualizar)
@@ -683,45 +712,25 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Clientes", jPanel1);
 
-        btnSalir2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        getContentPane().add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 170, 1267, -1));
+
+        btnSalir2.setBackground(new java.awt.Color(135, 206, 235));
+        btnSalir2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnSalir2.setText("Cerrar sesion");
         btnSalir2.addActionListener(this::btnSalir2ActionPerformed);
+        getContentPane().add(btnSalir2, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 760, -1, -1));
 
+        jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gui/logotipoOriginal.png"))); // NOI18N
+        getContentPane().add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, -1, 147));
+
+        lblUsuarioActivo.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblUsuarioActivo.setText(" ");
+        getContentPane().add(lblUsuarioActivo, new org.netbeans.lib.awtextra.AbsoluteConstraints(1320, 30, 191, 40));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1198, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(519, 519, 519)
-                        .addComponent(btnSalir2))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(496, 496, 496)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(15, 15, 15)
-                        .addComponent(lblUsuarioActivo, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(294, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addComponent(jLabel1)
-                .addGap(78, 78, 78)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 567, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnSalir2)
-                .addGap(18, 18, 18)
-                .addComponent(lblUsuarioActivo, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
-                .addGap(36, 36, 36))
-        );
+        jLabel19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gui/FondoMenu.png"))); // NOI18N
+        jLabel19.setText("jLabel19");
+        jLabel19.setToolTipText("");
+        getContentPane().add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(-3, 0, 1670, 830));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -826,6 +835,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
             this.dispose();
         }
     }//GEN-LAST:event_btnSalir2ActionPerformed
+    
     int idUsuarioSeleccionado;
     
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
@@ -1219,6 +1229,26 @@ public class MenuPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tablaProductosMouseClicked
 
+    private void tablaInventarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaInventarioMouseClicked
+        // TODO add your handling code here:
+        int fila = tablaInventario.getSelectedRow();
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una fila");
+        } else {
+            // Obtenemos los datos de las columnas de la tabla
+            // Ajusta el índice (0, 1, 2...) según el orden de tus columnas
+            String nombreProd = tablaInventario.getValueAt(fila, 1).toString();
+            String stockActual = tablaInventario.getValueAt(fila, 2).toString();
+
+            // Los pasamos a los campos de texto
+            cbxProductos.setSelectedItem(nombreProd); // O el nombre de tu campo
+            txtCantidadActual.setText(stockActual);
+
+            // Es buena práctica poner el foco en el campo de "Cantidad Nueva"
+            txtCantidadNueva.requestFocus();
+        }
+    }//GEN-LAST:event_tablaInventarioMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -1258,6 +1288,8 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
