@@ -716,7 +716,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         btnSalir2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnSalir2.setText("Cerrar sesion");
         btnSalir2.addActionListener(this::btnSalir2ActionPerformed);
-        getContentPane().add(btnSalir2, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 760, -1, -1));
+        getContentPane().add(btnSalir2, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 760, -1, -1));
 
         jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gui/logotipoOriginal.png"))); // NOI18N
         getContentPane().add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, -1, 147));
@@ -812,6 +812,8 @@ public class MenuPrincipal extends javax.swing.JFrame {
         Object valor = tablaClientes.getValueAt(fila, columna);
         return (valor != null) ? valor.toString() : "";
     }
+    
+
     
     private void btnSalir2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalir2ActionPerformed
         // TODO add your handling code here:
@@ -1144,6 +1146,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(this, "Producto eliminado");
                     listarProductos();
                     limpiarProd();
+                    llenarComboProductos();
                 }
             }
         }
@@ -1171,6 +1174,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 listarInventario();
                 listarProductos();
                 limpiarProd();
+                llenarComboProductos();
             }
         }
     }//GEN-LAST:event_btnActualizar1ActionPerformed
@@ -1193,6 +1197,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
                     listarProductos();
                     listarInventario();// Refresca la tabla
                     limpiar();
+                    llenarComboProductos();
                 } else {
                     JOptionPane.showMessageDialog(this, "Error al guardar producto");
                 }

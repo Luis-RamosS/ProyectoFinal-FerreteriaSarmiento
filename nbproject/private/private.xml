@@ -2,15 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/Users/Luis%20Ramos/Documents/NetBeansProjects/ProyectoFinal/src/modelo/Cliente.java</file>
-            <file>file:/C:/Users/Luis%20Ramos/Documents/NetBeansProjects/ProyectoFinal/src/dao/ClienteDao.java</file>
-            <file>file:/C:/Users/Luis%20Ramos/Documents/NetBeansProjects/ProyectoFinal/src/dao/ProductoDao.java</file>
-            <file>file:/C:/Users/Luis%20Ramos/Documents/NetBeansProjects/ProyectoFinal/src/modelo/Producto.java</file>
-            <file>file:/C:/Users/Luis%20Ramos/Documents/NetBeansProjects/ProyectoFinal/src/dao/UsuarioDao.java</file>
-            <file>file:/C:/Users/Luis%20Ramos/Documents/NetBeansProjects/ProyectoFinal/src/dao/InventarioDao.java</file>
-            <file>file:/C:/Users/Luis%20Ramos/Documents/NetBeansProjects/ProyectoFinal/src/gui/InicioSesion.java</file>
-            <file>file:/C:/Users/Luis%20Ramos/Documents/NetBeansProjects/ProyectoFinal/src/gui/MenuPrincipal.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>
